@@ -3,6 +3,7 @@ import hashlib
 import random
 import string
 import time
+import json
 
 from block import Block
 
@@ -21,23 +22,22 @@ class BlockChain(object):
         return [vars(block) for block in self.chain]
 
     def create_genesis_block(self):
-        self.create_new_block(previous_hash="")
+        self.chain.append(self.create_new_block(previous_hash=""))
 
     def create_new_block(self, previous_hash):
         block = Block(
-            num_bloc=len(self.chain),
-            id_contributeur=contributeur_id,
-            nonce=1,
-            preuve="",
-            hash="",
-            previous_hash=previous_hash,
-            transactions=self.transactions_arr
+            num_bloc = len(self.chain),
+            id_contributeur = contributeur_id,
+            nonce = 1,
+            preuve = "",
+            hash = "",
+            previous_hash = previous_hash,
+            transactions = self.transactions_arr
         )
         block.preuve = block.get_proof_of_work
         block.hash = block.get_block_hash
         self.transactions_arr = []  # Reinitialise la liste de transaction
 
-        self.chain.append(block) # Ajoute le bloc dans la chaine
         return block
 
     @staticmethod

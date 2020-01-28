@@ -29,6 +29,3 @@ class Block(object):
     def get_block_hash(self):
         block_string = "{}{}{}{}{}{}".format(self.num_bloc, self.id_contributeur, self.nonce, self.preuve, self.previous_hash, json.dumps(self.transactions))
         return hashlib.sha256(block_string.encode()).hexdigest()
-
-    # def __repr__(self):
-    #     return "{} {} {} {} {} {}".format(self.num_bloc, self.id_contributeur, self.nonce, self.preuve, self.previous_hash, self.transactions)
