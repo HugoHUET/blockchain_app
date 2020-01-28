@@ -2,6 +2,7 @@
 import time
 import hashlib
 import random
+import json
 
 class Block(object):
 
@@ -26,8 +27,8 @@ class Block(object):
 
     @property
     def get_block_hash(self):
-        block_string = "{}{}{}{}{}{}".format(self.num_bloc, self.id_contributeur, self.nonce, self.preuve, self.previous_hash, self.transactions)
+        block_string = "{}{}{}{}{}{}".format(self.num_bloc, self.id_contributeur, self.nonce, self.preuve, self.previous_hash, json.dumps(self.transactions))
         return hashlib.sha256(block_string.encode()).hexdigest()
 
-    def __repr__(self):
-        return "{} - {} - {} - {} - {} - {}".format(self.num_bloc, self.id_contributeur, self.nonce, self.preuve, self.previous_hash, self.transactions)
+    # def __repr__(self):
+    #     return "{} {} {} {} {} {}".format(self.num_bloc, self.id_contributeur, self.nonce, self.preuve, self.previous_hash, self.transactions)
