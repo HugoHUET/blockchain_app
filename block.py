@@ -1,14 +1,15 @@
+# coding=UTF-8
 import time
 import hashlib
 import random
 
 class Block(object):
 
-    def __init__(self, num_bloc, previous_hash, transactions, id_contributeur):
+    def __init__(self, num_bloc, id_contributeur, nonce, preuve, previous_hash, transactions):
         self.num_bloc = num_bloc
         self.id_contributeur = id_contributeur
-        self.nonce = 1
-        self.preuve = ""
+        self.nonce = nonce
+        self.preuve = preuve
         self.previous_hash = previous_hash
         self.transactions = transactions
 
@@ -26,3 +27,6 @@ class Block(object):
     def get_block_hash(self):
         block_string = "{}{}{}{}{}{}".format(self.num_bloc, self.id_contributeur, self.nonce, self.preuve, self.previous_hash, self.transactions)
         return hashlib.sha256(block_string.encode()).hexdigest()
+
+    def __repr__(self):
+        return "{} - {} - {} - {} - {} - {}".format(self.num_bloc, self.id_contributeur, self.nonce, self.preuve, self.previous_hash, self.transactions)
