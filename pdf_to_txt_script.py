@@ -1,15 +1,20 @@
+# coding: utf8
 import PyPDF2 as o
-openPDF = open("Bel_Ami.pdf","rb")
-pdfRead = o.PdfFileReader(openPDF)
-print(pdfRead.getPage(0).extractText())
-print(pdfRead.getNumPages())
-print(pdfRead.isEncrypted)
-print(pdfRead.getDocumentInfo())
+import requests
+import json
+
+pdfRead = o.PdfFileReader(open("maupassant_bel_ami.pdf","rb"))
 
 i=0
+pages = []
 
 while i < pdfRead.getNumPages():
-    page = pdfRead.getPage(i)
-    text = page.extractText()
-    print(text)
+    pages.append({
+        "numero_page" : i,
+        "texte" : pdfRead.getPage(i).extractText()
+    })
+
+    if len(pages) >= 5:
+        requests.post("http://127.0.0.1:5000/create-transaction", json = pages)
+        pages = []
     i = i+1
