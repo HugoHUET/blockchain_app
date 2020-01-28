@@ -1,7 +1,4 @@
 # coding=UTF-8
-print('Hello World!')
-from uuid import uuid4
-
 import json
 import hashlib
 import requests
@@ -33,15 +30,30 @@ def create_transaction():
 
     transaction_created = blockchain.creer_transaction(transaction_data)
     block = blockchain.mine_block()
-
+    is_valid = 0
     for node_address in blockchain.nodes:
         resp = requests.post(node_address + url_for('check_block'), json = block).json()
-        print(resp["block_valid"])
+        if resp["block_valid"] == True:
+            is_valid = is_valid+1
+
+    msg = "Transaction envoyé et refusé, block supprimé"
+    if is_valid >= 2:
+        block = Block(
+            num_bloc = block["num_bloc"],
+            id_contributeur = block["id_contributeur"],
+            nonce = block["nonce"],
+            preuve = block["preuve"],
+            hash = block["hash"],
+            previous_hash = block["previous_hash"],
+            transactions = block["transactions"],
+        )
+        blockchain.chain.append(block)
+        msg = 'Transaction envoyé et accepté, block ajouté à la chaine !',
+    elif is_valid < 2:
+        msg = 'Transaction envoyé mais pas assez de noeuds l\'ont accepté, block supprimé'
 
     response = {
-        'message': 'Transaction envoyé',
-        'transaction': transaction_created,
-        'block_created': block
+        'message': msg,
     }
 
     return jsonify(response), 201
