@@ -12,6 +12,9 @@ app = Flask(__name__)
 
 blockchain = BlockChain()
 
+blockchain.nodes.add("http://127.0.0.1:5001")
+blockchain.nodes.add("http://127.0.0.1:5002")
+
 @app.route('/create-transaction', methods=['POST'])
 def create_transaction():
     """
@@ -51,6 +54,8 @@ def create_transaction():
         msg = 'Transaction envoyé et accepté, block ajouté à la chaine !',
     elif is_valid < 2:
         msg = 'Transaction envoyé mais pas assez de noeuds l\'ont accepté, block supprimé'
+    
+    print(msg)
 
     response = {
         'message': msg,
