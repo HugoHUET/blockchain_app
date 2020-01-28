@@ -5,11 +5,12 @@ import random
 
 class Block(object):
 
-    def __init__(self, num_bloc, id_contributeur, nonce, preuve, previous_hash, transactions):
+    def __init__(self, num_bloc, id_contributeur, nonce, preuve, hash, previous_hash, transactions):
         self.num_bloc = num_bloc
         self.id_contributeur = id_contributeur
         self.nonce = nonce
         self.preuve = preuve
+        self.hash = hash
         self.previous_hash = previous_hash
         self.transactions = transactions
 
