@@ -3,12 +3,13 @@ import json
 import hashlib
 import requests
 from flask import Flask, jsonify, url_for, request
-
+from flask_cors import CORS
 from blockchain import BlockChain
 from block import Block
 
 
 app = Flask(__name__)
+CORS(app, resources={r"/chain": {"origins": "*"}})
 
 blockchain = BlockChain()
 
